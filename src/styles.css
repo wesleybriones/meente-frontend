@@ -1,0 +1,62 @@
+
+button{
+    text-align: center;
+    border: none;
+    border-radius: 5px; 
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.container-subtitle{
+    display: flex;
+    flex-direction: row;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.options-menu{
+    background-color: #efefef;
+    width: 50%;
+    justify-content: center;
+    text-align: center;
+    border: none;
+}
+
+.img-home-logo{
+    width: 300px; 
+    height: 150px;
+    margin: 2% 10%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.FiltroBusqueda {
+    margin-bottom: 10px;
+}
+
+input {
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid rgb(97, 32, 158);
+    color: black;
+    font-size: 1.2rem;
+    outline: none;
+    padding: 5px 15px;
+    width: 100%;
+  }
