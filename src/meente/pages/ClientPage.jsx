@@ -1,20 +1,25 @@
 import { useState } from "react";
-import { SearchFilter } from "../components"
-import { useNavigate } from "react-router-dom";
+
+import { ClientModal, SearchFilter } from "../components"
+import { useUiStore, useClientStore } from "../../hooks";
 
 export const ClientPage = () => {
 
-  const navigate  = useNavigate();
+  const { openClientModal } = useUiStore();
+  const { clients, setActiveClient } = useClientStore();
 
-  const clientes = [''];
   const [searchText, setSearchText] = useState('');
 
   const onSearchSubmit = () => {
+  }
 
+  const onSelect = ( client ) => {
+    setActiveClient( client );
+    openClientModal();
   }
 
   const addCLient = () => {
-    navigate('/add-client');
+    openClientModal();
   }
   
   return (
@@ -30,9 +35,23 @@ export const ClientPage = () => {
           </button>
         </div>
         {
-            ( clientes.length === 0 )
+            ( clients.length === 0 )
             ? 
-                <div className="alert alert-danger mt-4">No se encontraron resultados del cliente</div>
+            <>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Acción</th>
+                  </tr>
+                </thead>
+              </table>
+              <div className="alert alert-danger mt-4">No se encontraron resultados del cliente</div>
+            </>
             : 
               <table className="table">
                 <thead>
@@ -46,16 +65,24 @@ export const ClientPage = () => {
                   </tr>
                 </thead>
                 <tbody className="table-group-divider">
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>{ clientes[0] + ' ' + clientes[1]}</td>
-                    <td>Socio Vivienda 1</td>
-                    <td>+593 950178673</td>
-                    <td>wesley@meente.ec</td>
-                  </tr>
+                  {
+                    clients.map( ( client, index ) => (
+                    <tr key={index} >
+                      <th scope="col">{ index + 1 }</th>
+                      <td>{ client.names + ' ' + client.surnames }</td>
+                      <td>{ client.direction }</td>
+                      <td>{ client.phone }</td>
+                      <td>{ client.mail }</td>
+                      <td>
+                        <i className="fa-solid fa-pen-to-square" onClick={ () => onSelect( client ) }></i>
+                      </td>
+                    </tr>
+                    ))
+                  }
                 </tbody>
               </table>
           }
+          <ClientModal />
       </div>
     </>
   )

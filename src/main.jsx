@@ -1,14 +1,11 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 
-import { MeenteAptnessApp } from './MeenteAptness.jsx';
 import './styles.css';
 
+import { MeenteAptnessApp } from './MeenteAptness.jsx';
+
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <MeenteAptnessApp />
-    </BrowserRouter>
-  </React.StrictMode>,
+  //<React.StrictMode>
+    <MeenteAptnessApp />
+  //</React.StrictMode>
 )

@@ -1,18 +1,27 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
+import { useForm } from "../../hooks";
 
 
 export const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const { email, password, onInputChange } = useForm({
+    email: 'wesley@meente.ec',
+    password: '123456'
+  });
 
-  const onLogin = () => {
+  /*const onLogin = () => {
     navigate('/', {
       replace: true
     });
+  }*/
+
+  const onSubmit = ( event ) => {
+    event.preventDefault();
+
+    console.log({ email, password });
   }
 
   return (
@@ -20,12 +29,15 @@ export const LoginPage = () => {
         <h1 className="text-center">Inicio de Sesión</h1>
         <hr className="w-100 text-primary"/>
 
-        <form>
+        <form onSubmit={ onSubmit }>
           <div>
             <label className="col-4">Usuario:</label>
             <input 
               className="col-8 border-primary" 
               type="text"
+              name="email"
+              value={ email }
+              onChange={ onInputChange }
             />
           </div>
 
@@ -35,16 +47,19 @@ export const LoginPage = () => {
               className="col-8 border-primary" 
               type="text"
               autoComplete="off"
+              name="password"
+              value={ password }
+              onChange={ onInputChange }
             />
           </div>
 
+          <button 
+            className="btn btn-primary w-100"
+            type="submit"
+          >
+            Ingresar
+          </button>
         </form>
-        <button 
-          className="btn btn-primary w-100"
-          onClick={ onLogin }
-        >
-          Ingresar
-        </button>
     </div>
   )
 }
