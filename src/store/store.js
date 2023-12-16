@@ -7,4 +7,7 @@ export const store = configureStore({
         meente: clientSlice.reducer,
         ui: uiSlice.reducer,
     },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false
+    })
 });

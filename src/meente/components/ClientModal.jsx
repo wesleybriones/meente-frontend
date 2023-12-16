@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Modal from 'react-modal'
 
 import Swal from "sweetalert2";
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useUiStore } from '../../hooks';
+import { useClientStore } from '../hooks';
 
 const customStyles = {
     content: {
@@ -20,19 +21,20 @@ Modal.setAppElement('#root');
 
 export const ClientModal = () => {
 
-    const { isClientModalOpen, closeClientModal } = useUiStore();
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const { isClientModalOpen, closeClientModal } = useUiStore();
+    const { activeClient, startSavingClient } = useClientStore();
 
     const [formValue, setFormValue] = useState({
-        identification_ruc: '0950178673',
-        names: 'Wesley',
-        surnames: 'Briones',
-        city: 'Guayaquil',
-        direction: 'Av Socio Vivienda 1 Mz 4D Solar 5',
-        genre: 'Masculino',
-        phone: '0990508849',
-        mail: 'wesley@meente.ec',
-        state: 'Activo',
+        identification_ruc: '',
+        names: '',
+        surnames: '',
+        city: '',
+        direction: '',
+        genre: '',
+        phone: '',
+        mail: '',
+        state: '',
         create_date: new Date(),
         update_date: new Date()
     })
@@ -47,6 +49,13 @@ export const ClientModal = () => {
         : 'is-invalid'
     }, [ formValue.mail, formSubmitted ])
     
+    useEffect(() => {
+      if ( activeClient !== null ){
+        setFormValue({ ...activeClient });
+      }
+    }, [activeClient])
+    
+
     const onInputChanged = ({ target }) => {
         setFormValue({
           ...formValue,
@@ -58,7 +67,7 @@ export const ClientModal = () => {
         closeClientModal();
     }
       
-    const onSubmit = ( event ) => {
+    const onSubmit = async ( event ) => {
         event.preventDefault();
         setFormSubmitted(true);
 
@@ -66,7 +75,11 @@ export const ClientModal = () => {
           Swal.fire('Cédula o RUC incorrecto', 'Ingresar un número de cédula válido', 'error')
           return ;
         }
-        console.log(formValue);
+        
+        // TODO:
+        await startSavingClient( formValue );
+        closeClientModal();
+        setFormSubmitted(false);
       }
     
 
@@ -80,7 +93,7 @@ export const ClientModal = () => {
         closeTimeoutMS={ 200 }
     >
         <div className="container mt-4">
-        <h3 className='text-center'>Registro del Cliente</h3>
+        <h3 className='text-center'>Cliente</h3>
         <hr />
 
         <form onSubmit={ onSubmit } >
@@ -194,7 +207,7 @@ export const ClientModal = () => {
                 <button 
                     className="btn btn-primary w-50"
                 >
-                    Registrar
+                    Guardar
                 </button>
             </div>
 

@@ -1,12 +1,13 @@
 import { useState } from "react";
 
 import { ClientModal, SearchFilter } from "../components"
-import { useUiStore, useClientStore } from "../../hooks";
+import { useUiStore } from "../../hooks";
+import { useClientStore } from "../hooks";
 
 export const ClientPage = () => {
 
   const { openClientModal } = useUiStore();
-  const { clients, setActiveClient } = useClientStore();
+  const { clients, setActiveClient, startDeleteClient } = useClientStore();
 
   const [searchText, setSearchText] = useState('');
 
@@ -19,7 +20,30 @@ export const ClientPage = () => {
   }
 
   const addCLient = () => {
+    setActiveClient({
+      identification_ruc: '',
+      names: '',
+      surnames: '',
+      city: '',
+      direction: '',
+      genre: '',
+      phone: '',
+      mail: '',
+      state: 'Activo',
+      create_date: new Date(),
+      update_date: new Date()
+    })
     openClientModal();
+  }
+  
+  const handleDeleteClient = ( client ) => {
+    setActiveClient( client );
+    startDeleteClient();
+  }
+
+  const showReportByClient = ( client ) => {
+    setActiveClient( client );
+    //TODO: filtrar reports by cliente
   }
   
   return (
@@ -53,7 +77,7 @@ export const ClientPage = () => {
               <div className="alert alert-danger mt-4">No se encontraron resultados del cliente</div>
             </>
             : 
-              <table className="table">
+              <table className="table text-center">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -64,7 +88,7 @@ export const ClientPage = () => {
                     <th scope="col">Acción</th>
                   </tr>
                 </thead>
-                <tbody className="table-group-divider">
+                <tbody className="table-group-divider text-center">
                   {
                     clients.map( ( client, index ) => (
                     <tr key={index} >
@@ -73,8 +97,10 @@ export const ClientPage = () => {
                       <td>{ client.direction }</td>
                       <td>{ client.phone }</td>
                       <td>{ client.mail }</td>
-                      <td>
+                      <td className="d-flex justify-content-between pb-3">
+                        <i className="fa-solid fa-file-invoice" onClick={ () => showReportByClient( client ) }></i>
                         <i className="fa-solid fa-pen-to-square" onClick={ () => onSelect( client ) }></i>
+                        <i className="fa-solid fa-trash" onClick={ () => handleDeleteClient( client ) }></i>
                       </td>
                     </tr>
                     ))
