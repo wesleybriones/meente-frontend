@@ -1,15 +1,27 @@
 import { useState } from "react"
-import { SearchFilter } from "../components/SearchFilter";
+import { ReportModal, SearchFilter } from "../components";
 
 
 export const ReportPage = () => {
 
   const [busqueda, setBusqueda] = useState();
 
+  const addReport = () => {
+    openClientModal();
+  }
 
   return (
     <>
-      <SearchFilter busqueda={ busqueda } setBusqueda={ setBusqueda } />
+      <div className="d-flex justify-content-between">
+        <SearchFilter busqueda={ busqueda } setBusqueda={ setBusqueda } />
+        <button 
+          className="col-2 btn btn-outline-primary mt-2"
+          onClick={ addReport }
+        >
+            Nuevo
+        </button>
+      </div>
+
       <table className="table">
         <thead>
           <tr>
@@ -31,6 +43,8 @@ export const ReportPage = () => {
           
         </tbody>
       </table>
+
+      <ReportModal />
     </>
   )
 }
