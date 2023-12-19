@@ -58,7 +58,7 @@ export const ReportModal = () => {
 
     return (
         <Modal
-            isOpen={ true }
+            isOpen={ false }
             onRequestClose={ onCloseModal }
             style={customStyles}
             className="modal"

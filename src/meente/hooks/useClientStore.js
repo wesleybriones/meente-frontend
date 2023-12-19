@@ -4,7 +4,7 @@ import { onAddNewClient, onDeleteClient, onSetActiveClient, onUpdateClient } fro
 export const useClientStore = () => {
 
     const dispatch =  useDispatch();
-    const { clients, activeClient } = useSelector( state => state.meente );
+    const { clients, activeClient } = useSelector( state => state.client );
 
     const setActiveClient = ( clientEvent ) => {
         dispatch( onSetActiveClient( clientEvent ) )
