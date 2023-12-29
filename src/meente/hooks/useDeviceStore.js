@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { onAddNewDevice, onDeleteDevice, onSetActiveDevice, onUpdateDevice } from '../../store';
 
 
@@ -20,11 +20,11 @@ export const useDeviceStore = () => {
             dispatch( onUpdateDevice({ ...deviceEvent }));
         }else{
             //Creando
-            dispatch( onAddNewDevice({ ...activeDevice, _id: new Date().getTime() }));
+            dispatch( onAddNewDevice({ ...deviceEvent, _id: new Date().getTime() }));
         }
     }
 
-    const startDeeleteDevice = () => {
+    const startDeleteDevice = () => {
         // Todo: LLegar al backend
         dispatch( onDeleteDevice() );
     }
@@ -37,6 +37,6 @@ export const useDeviceStore = () => {
         //* Métodos
         setActiveDevice,
         startSavingDevice,
-        startDeeleteDevice,
+        startDeleteDevice,
     }
 }

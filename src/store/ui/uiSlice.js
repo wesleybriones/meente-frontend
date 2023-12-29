@@ -5,18 +5,18 @@ import { createSlice } from '@reduxjs/toolkit';
 export const uiSlice = createSlice({
     name: 'ui',
     initialState: {
-        isClientModalOpen: false
+        isModalOpen: false
     },
     reducers: {
-        onOpenClientModal: ( state ) => {
-            state.isClientModalOpen = true;
+        onOpenModal: ( state ) => {
+            state.isModalOpen = true;
         },
-        onCloseClientModal: ( state ) => {
-            state.isClientModalOpen = false;
+        onCloseModal: ( state ) => {
+            state.isModalOpen = false;
         },
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { onOpenClientModal, onCloseClientModal } = uiSlice.actions;
+export const { onOpenModal, onCloseModal } = uiSlice.actions;

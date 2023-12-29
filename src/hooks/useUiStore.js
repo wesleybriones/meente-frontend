@@ -1,28 +1,28 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { onCloseClientModal, onOpenClientModal } from '../store';
+import { onCloseModal, onOpenModal } from '../store';
 
 export const useUiStore = () => {
 
     const dispatch = useDispatch();
 
     const {
-        isClientModalOpen
+        isModalOpen
     } = useSelector( state => state.ui );
 
-    const openClientModal = () => {
-        dispatch( onOpenClientModal() )
+    const openModal = () => {
+        dispatch( onOpenModal() )
     }
 
-    const closeClientModal = () => {
-        dispatch( onCloseClientModal() )
+    const closeModal = () => {
+        dispatch( onCloseModal() )
     }
 
     return {
         //* Propiedades
-        isClientModalOpen,
+        isModalOpen,
 
         //* Métodos
-        openClientModal,
-        closeClientModal,
+        openModal,
+        closeModal,
     }
 }

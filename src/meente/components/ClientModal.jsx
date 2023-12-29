@@ -22,7 +22,7 @@ Modal.setAppElement('#root');
 export const ClientModal = () => {
 
     const [formSubmitted, setFormSubmitted] = useState(false);
-    const { isClientModalOpen, closeClientModal } = useUiStore();
+    const { isModalOpen, closeModal } = useUiStore();
     const { activeClient, startSavingClient } = useClientStore();
 
     const [formValue, setFormValue] = useState({
@@ -64,7 +64,7 @@ export const ClientModal = () => {
     }
 
     const onCloseModal = () => {
-        closeClientModal();
+        closeModal();
     }
       
     const onSubmit = async ( event ) => {
@@ -78,14 +78,14 @@ export const ClientModal = () => {
         
         // TODO:
         await startSavingClient( formValue );
-        closeClientModal();
+        closeModal();
         setFormSubmitted(false);
       }
     
 
   return (
     <Modal
-        isOpen={ isClientModalOpen }
+        isOpen={ isModalOpen }
         onRequestClose={ onCloseModal }
         style={customStyles}
         className="modal"

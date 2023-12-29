@@ -13,7 +13,7 @@ export const MeenteRoutes = () => {
                 <Route path="devices" element={ <DevicePage /> }/>
                 <Route path="reports" element={ <ReportPage /> } />
 
-                <Route path="/" element={ <Navigate to="reports" /> }/>
+                <Route path="/" element={ <Navigate to="clients" /> }/>
 
             </Routes>
         </div>

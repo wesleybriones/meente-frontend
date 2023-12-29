@@ -6,7 +6,7 @@ import { useClientStore } from "../hooks";
 
 export const ClientPage = () => {
 
-  const { openClientModal } = useUiStore();
+  const { openModal } = useUiStore();
   const { clients, setActiveClient, startDeleteClient } = useClientStore();
 
   const [searchText, setSearchText] = useState('');
@@ -16,7 +16,7 @@ export const ClientPage = () => {
 
   const onSelect = ( client ) => {
     setActiveClient( client );
-    openClientModal();
+    openModal();
   }
 
   const addCLient = () => {
@@ -33,7 +33,7 @@ export const ClientPage = () => {
       create_date: new Date(),
       update_date: new Date()
     })
-    openClientModal();
+    openModal();
   }
   
   const handleDeleteClient = ( client ) => {

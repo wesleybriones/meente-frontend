@@ -1,13 +1,15 @@
 import { useState } from "react"
 import { ReportModal, SearchFilter } from "../components";
+import { useUiStore } from "../../hooks";
 
 
 export const ReportPage = () => {
 
+  const { openModal } = useUiStore();
   const [busqueda, setBusqueda] = useState();
 
   const addReport = () => {
-    openClientModal();
+    openModal();
   }
 
   return (
