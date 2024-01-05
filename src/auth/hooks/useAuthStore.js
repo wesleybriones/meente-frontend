@@ -28,10 +28,11 @@ export const useAuthStore = () => {
 
     const checkAuthToken = async() => {
         const token = localStorage.getItem('token');
-        if( !token ) return dispatch( onLogout() )
+        if ( !token ) return dispatch( onLogout() );
+
         try {
-            const { data } = await meenteApi.get('/auth/renew');
-            localStorage.setItem('token', data.token )
+            const { data } = await meenteApi.get('auth/renew');
+            localStorage.setItem('token', data.token );
             localStorage.setItem('token-init-date', new Date().getTime() );
             dispatch( onLogin({
                 names: data.name,
@@ -39,9 +40,15 @@ export const useAuthStore = () => {
             }) )
         } catch (error) {
             localStorage.clear();
-            dispatch( onLogout() )
+            dispatch( onLogout() );
         }
     }
+
+    const startLogout = () => {
+        localStorage.clear();
+        dispatch( onLogout() );
+    }
+
 
     return {
         //* Propiedades
@@ -51,8 +58,8 @@ export const useAuthStore = () => {
 
 
         //* Métodos
-        startLogin,
         checkAuthToken,
-
+        startLogin,
+        startLogout,
     }
 }

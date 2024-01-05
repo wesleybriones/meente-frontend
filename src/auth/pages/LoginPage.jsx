@@ -56,7 +56,7 @@ export const LoginPage = () => {
           <div className="mt-3 mb-3 d-flex align-items-center">
             <label className="text-center">Contraseña:</label>
             <input 
-              className="border-primary ms-2 form-control" 
+              className="border-primary ms-1 form-control" 
               type="password"
               autoComplete="off"
               name="password"

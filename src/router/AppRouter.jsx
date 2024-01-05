@@ -1,11 +1,11 @@
+import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom"
 
-import { MeenteRoutes } from "../meente";
-import { LoginPage } from "../auth";
-import { HomePage } from "../views";
 import { useAuthStore } from "../auth/hooks";
-import { useEffect } from "react";
+import { LoginPage } from "../auth";
+import { MeenteRoutes } from "../meente";
 
+import { HomePage } from "../views";
 
 export const AppRouter = () => {
 
@@ -15,28 +15,27 @@ export const AppRouter = () => {
         checkAuthToken();
     }, [])
     
-    if ( status === 'checking'){
-        return ( <h3>Cargando...</h3> )
+
+    if ( status === 'checking' ){
+        return(
+            <h3>Cargando...</h3>
+        )
     }
 
     return (
         <>
             <Routes>
                 {
-                    ( status === 'not-authenticated' )
-                    ?(
+                    ( status === 'authenticated' )
+                    ?<Route path="/*" element={ <MeenteRoutes /> } />
+                    : (
                         <>
                             <Route path="/auth/*" element={ <LoginPage /> }/>
                             <Route path="/*" element={ <Navigate to="/auth/login" /> }/>
-                        </> 
-                    )
-                    : (
-                        <>
-                            <Route path="/" element={ <MeenteRoutes /> }/>
-                            <Route path="/*" element={ <Navigate to="/" /> }/>
                         </>
                     )
                 }
+                <Route path="/*" element={ <Navigate to='/auth/login' /> } /> 
             </Routes>
         </>
         )
