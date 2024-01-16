@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ClientModal, SearchFilter } from "../components"
 import { useUiStore } from "../../hooks";
 import { useClientStore } from "../hooks";
+//import { DeleteModal } from "../components/DeleteModal";
 
 export const ClientPage = () => {
 
   const { openModal } = useUiStore();
-  const { clients, setActiveClient, startDeleteClient } = useClientStore();
+  const { clients, setActiveClient, startDeleteClient, startLoadingClient } = useClientStore();
 
   const [searchText, setSearchText] = useState('');
 
@@ -45,6 +46,11 @@ export const ClientPage = () => {
     setActiveClient( client );
     //TODO: filtrar reports by cliente
   }
+
+  useEffect(() => {
+    startLoadingClient();
+  }, [])
+  
   
   return (
     <>

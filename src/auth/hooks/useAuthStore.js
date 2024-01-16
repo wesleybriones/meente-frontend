@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { meenteApi } from '../../api';
-import { clearErrorMessage, onChecking, onLogin, onLogout } from '../../store';
+import { clearErrorMessage, onChecking, onLogin, onLogout, onClearDevice, onClearClients } from '../../store';
 
 export const useAuthStore = () => {
 
@@ -46,6 +46,8 @@ export const useAuthStore = () => {
 
     const startLogout = () => {
         localStorage.clear();
+        dispatch( onClearClients() );
+        dispatch( onClearDevice() );
         dispatch( onLogout() );
     }
 

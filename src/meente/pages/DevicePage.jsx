@@ -1,12 +1,13 @@
-import { DeviceModal, SearchFilter } from "../components";
+import { useEffect } from "react";
 import { useUiStore } from "../../hooks";
 import { useDeviceStore } from "../hooks";
 
+import { DeviceModal, SearchFilter } from "../components";
 
 export const DevicePage = () => {
 
   const { openModal } = useUiStore();
-  const { devices, setActiveDevice, startDeleteDevice } = useDeviceStore();
+  const { devices, setActiveDevice, startDeleteDevice, startLoadingDevice } = useDeviceStore();
   
   const onSearchSubmit = () => {
     console.log('buscar');
@@ -19,9 +20,10 @@ export const DevicePage = () => {
 
   const addDevice = () => {
     setActiveDevice({
-      serie: '',
+      serial: '',
       description: '',
-      id_client: '', 
+      input_day: '', 
+      output_day: '',
       image: ''
     });
     openModal();
@@ -37,6 +39,10 @@ export const DevicePage = () => {
     //TODO: filtrar reports by device
   }
 
+  useEffect(() => {
+    startLoadingDevice();
+  }, [])
+  
 
   return (
     <>
@@ -60,7 +66,7 @@ export const DevicePage = () => {
                   <th scope="col">#</th>
                   <th scope="col">Descripción</th>
                   <th scope="col">Serie</th>
-                  <th scope="col">Cliente</th>
+                  <th scope="col">Ingreso</th>
                   <th scope="col">Acción</th>
                 </tr>
               </thead>
@@ -73,8 +79,8 @@ export const DevicePage = () => {
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Descripción</th>
-                  <th scope="col">Cliente</th>
                   <th scope="col">Serie</th>
+                  <th scope="col">Ingreso</th>
                   <th scope="col">Acción</th>
                 </tr>
               </thead>
@@ -84,8 +90,8 @@ export const DevicePage = () => {
                     <tr key={index} >
                       <th scope="col">{ index + 1 }</th>
                       <td>{ device.description }</td>
-                      <td>{ device.id_client }</td>
-                      <td>{ device.serie }</td>
+                      <td>{ device.serial }</td>
+                      <td>{ device.input_day.toString() }</td>
                       <td className="d-flex justify-content-between pb-3">
                         <i className="fa-solid fa-file-invoice" onClick={ () => showReportByDevice( device ) }></i>
                         <i className="fa-solid fa-pen-to-square" onClick={ () => onSelect( device ) }></i>

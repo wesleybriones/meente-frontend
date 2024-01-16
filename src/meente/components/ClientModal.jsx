@@ -38,12 +38,13 @@ export const ClientModal = () => {
         create_date: new Date(),
         update_date: new Date()
     })
+    
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailPattern.test(formValue.mail);
 
     const submittedForm = useMemo(() => {
         if ( !formSubmitted ) return '';
 
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const isValidEmail = emailPattern.test(formValue.mail);
         return ( isValidEmail ) 
         ? 'is-valid' 
         : 'is-invalid'
@@ -70,12 +71,14 @@ export const ClientModal = () => {
     const onSubmit = async ( event ) => {
         event.preventDefault();
         setFormSubmitted(true);
-
-        if ( formValue.identification_ruc.length < 10 || formValue.identification_ruc.length > 13 ){
+        /*if ( formValue.identification_ruc.length < 10 || formValue.identification_ruc.length > 13 ){
           Swal.fire('Cédula o RUC incorrecto', 'Ingresar un número de cédula válido', 'error')
           return ;
+        }*/
+        if ( !isValidEmail ){
+            Swal.fire('Email incorrecto', 'Ingresar un email correcto: ejemplo@ejemplo.com', 'error')
+            return ;
         }
-        
         // TODO:
         await startSavingClient( formValue );
         closeModal();

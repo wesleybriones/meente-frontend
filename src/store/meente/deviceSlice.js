@@ -1,19 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const tmpDevice = {
-    _id: new Date().getTime(),
-    serie: '8CC0460B3R',
-    description: 'HP All-in-one 22-df0018la',
-    id_client: 'Angeles Terreros', 
-    image: ''
-};
-
 export const deviceSlice = createSlice({
     name: 'device',
     initialState: {
-        devices: [
-            tmpDevice
-        ],
+        isLoadingDevice: true,
+        devices: [ ],
         activeDevice: null
     },
     reducers: {
@@ -26,23 +17,38 @@ export const deviceSlice = createSlice({
         },
         onUpdateDevice: (state, { payload }) => {
             state.devices = state.devices.map( device => {
-                if ( device._id === payload._id ){
+                if ( device.id_device === payload.id_device ){
                     return payload;
                 }
                 return device;
             })
         },
-        onDeleteDevice: ( state ) => {
-            if ( state.activeDevice ){
-                state.devices = state.devices.filter( device => device._id !== state._id );
-                state.activeDevice = null;
-            }
+        onLoadDevices: ( state, { payload = [] }) => {
+            state.isLoadingDevice = false;
+            payload.forEach( device => {
+                const exists = state.devices.some( dbDevice => dbDevice.serial === device.serial );
+                if ( !exists ){
+                    state.devices.push( device )
+                }
+            });
+        },
+        onClearDevice: ( state ) => {
+            state.isLoadingDevice = true,
+            state.devices = [ ],
+            state.activeDevice = null
         }
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { onSetActiveDevice, onAddNewDevice, onUpdateDevice, onDeleteDevice } = deviceSlice.actions;
+export const { 
+    onSetActiveDevice, 
+    onAddNewDevice, 
+    onUpdateDevice, 
+    onDeleteDevice, 
+    onLoadDevices,
+    onClearDevice,
+} = deviceSlice.actions;
 
 

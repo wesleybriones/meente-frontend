@@ -1,6 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { onAddNewDevice, onDeleteDevice, onSetActiveDevice, onUpdateDevice } from '../../store';
 
+import { meenteApi } from '../../api';
+import { convertDataToDateInputDevice } from '../helpers';
+import { onAddNewDevice, onLoadDevices, onSetActiveDevice, onUpdateDevice } from '../../store';
+
+import Swal from "sweetalert2";
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 export const useDeviceStore = () => {
 
@@ -12,21 +17,35 @@ export const useDeviceStore = () => {
     }
 
     const startSavingDevice = async ( deviceEvent ) => {
-        // TODO: llegar al backend
-
-        // TODO bien
-        if( deviceEvent._id ){
-            //Actualizando
-            dispatch( onUpdateDevice({ ...deviceEvent }));
-        }else{
+        
+        try {
+            if( deviceEvent.id_device ){
+                //Actualizando
+                await meenteApi.put(`/devices/${ deviceEvent.id_device }`, deviceEvent)
+                dispatch( onUpdateDevice({ ...deviceEvent }));
+                return ;
+            }
             //Creando
-            dispatch( onAddNewDevice({ ...deviceEvent, _id: new Date().getTime() }));
+            const { data } = await meenteApi.post('/devices', deviceEvent );
+            dispatch( onAddNewDevice({ ...deviceEvent,
+                                        id: data.new_device.id_device,
+                                    }));
+
+        } catch (error) {
+            console.log(error);
+            Swal.fire('Error al guardar', error.response.data?.msg, 'error' );
         }
     }
 
-    const startDeleteDevice = () => {
-        // Todo: LLegar al backend
-        dispatch( onDeleteDevice() );
+    const startLoadingDevice = async() => {
+        try {
+            const { data } = await meenteApi.get('/devices');
+            const devices = convertDataToDateInputDevice( data.devices );
+            dispatch( onLoadDevices( data.devices ) );
+        } catch (error) {
+            console.log('Error cargando dispositivos');
+            console.log( error );
+        }
     }
 
     return {
@@ -37,6 +56,6 @@ export const useDeviceStore = () => {
         //* Métodos
         setActiveDevice,
         startSavingDevice,
-        startDeleteDevice,
+        startLoadingDevice,
     }
 }

@@ -25,9 +25,10 @@ export const DeviceModal = () => {
     const { activeDevice, startSavingDevice } = useDeviceStore();
 
     const [formValue, setFormValue] = useState({
-        serie: '',
+        serial: '',
         description: '',
-        id_client: '', 
+        input_day: '', 
+        output_day: '',
         image: ''
     })
 
@@ -51,11 +52,10 @@ export const DeviceModal = () => {
     const onSubmit = async ( event ) => {
         event.preventDefault();
 
-        if ( formValue.serie.length < 5 ){
+        if ( formValue.serial.length < 5 ){
             Swal.fire('Serie incorrecta', 'Ingresar una serie válida', 'error')
             return ;
         }
-        console.log(formValue);
         // TODO:
         await startSavingDevice( formValue );
         closeModal();
@@ -80,9 +80,9 @@ export const DeviceModal = () => {
                     <input 
                     type="text"
                     className="w-100 form-control"
-                    name="serie"
+                    name="serial"
                     autoComplete="off"
-                    value={ formValue.serie }
+                    value={ formValue.serial }
                     onChange={ onInputChanged }
                     />
                 </div>
@@ -98,29 +98,13 @@ export const DeviceModal = () => {
                     onChange={ onInputChanged }
                     />
                 </div>
-
-                <div className="pt-3 pb-3">
-                    <label className="col-auto text-center">Cliente:</label>
-                    <input 
-                        type="text" 
-                        className="w-100 form-control"
-                        name="id_client"
-                        autoComplete="off"
-                        value={ formValue.id_client }
-                        onChange={ onInputChanged }
-                        required
-                    />
-                </div>
     
                 <div className="pt-3 pb-3 d-flex align-items-center">
                     <input 
                         className="w-100 form-control"
                         type="file"
-                        name="image"
                         accept="image/*"
                         title="Selecciona imagen"
-                        value={ formValue.image }
-                        onChange={ onInputChanged }
                     />
                 </div>
                 

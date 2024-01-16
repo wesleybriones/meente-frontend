@@ -1,26 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const tmpClient = {
-    _id: new Date().getTime(),
-    identification_ruc: '0909090909',
-    names: 'Luis',
-    surnames: 'Briones',
-    city: 'Quito',
-    direction: 'quito',
-    genre: 'Masculino',
-    phone: '0990503337',
-    mail: 'luis@meente.ec',
-    state: 'Activo',
-    create_date: new Date(),
-    update_date: new Date()
-};
-
 export const clientSlice = createSlice({
     name: 'client',
     initialState: {
-        clients: [
-            tmpClient
-        ],
+        isLoadingClient: true,
+        clients: [ ],
         activeClient: null
     },
     reducers: {
@@ -33,7 +17,7 @@ export const clientSlice = createSlice({
         },
         onUpdateClient: ( state, { payload }) => {
             state.clients = state.clients.map( client => {
-                if( client._id === payload._id ){
+                if( client.id_client === payload.id_client ){
                     return payload;
                 }
                 return client;
@@ -41,13 +25,36 @@ export const clientSlice = createSlice({
         },
         onDeleteClient: ( state ) => {
             if ( state.activeClient ){
-                state.clients = state.clients.filter( client => client._id !== state.activeClient._id );
+                state.clients = state.clients.filter( client => client.id_client !== state.activeClient.id_client );
                 state.activeClient = null;
             }
         },
+        onLoadClients: ( state, { payload = [] } ) => {
+            state.isLoadingClient = false;
+            payload.forEach( client => {
+                const exists = state.clients.some( dbClient => dbClient.id_client === client.id_client )
+                if ( !exists ){
+                    if ( client.state.toLowerCase() === 'activo' ){
+                        state.clients.push( client )
+                    }
+                }
+            });
+        },
+        onClearClients: ( state ) => {
+            state.isLoadingClient = true,
+            state.clients = [ ],
+            state.activeClient = null
+        }
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { onSetActiveClient, onAddNewClient, onUpdateClient, onDeleteClient } = clientSlice.actions;
+export const {
+    onSetActiveClient, 
+    onAddNewClient, 
+    onUpdateClient, 
+    onDeleteClient, 
+    onLoadClients, 
+    onClearClients 
+} = clientSlice.actions;
